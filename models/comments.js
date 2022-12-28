@@ -7,4 +7,4 @@ const commentSchema = new Schema({
   postId: Schema.Types.ObjectId
 });
 
-export default mongoose.model('comment',commentSchema);
+module.exports =  mongoose.model('comment',commentSchema);

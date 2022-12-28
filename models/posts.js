@@ -8,4 +8,4 @@ const postSchema = new Schema({
   published:Boolean,
 });
 
-export default mongoose.model('post',postSchema);
+module.exports = mongoose.model('post',postSchema);

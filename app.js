@@ -2,18 +2,22 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
-require('dotenv').config()
 
-const apiRouter = require('./api/user.js');
+const apiRouter = require('./api/index.js');
+require('dotenv').config()
 
 // connection to database 
 mongoose.set('strictQuery', true);
-mongoose.connect(process.env.MONGODBURL, {}, err => {
+mongoose.connect(process.env.MONGODBURL)
+  .catch(err => {
   console.log('mongodb connection error');
   console.log(err);
 });
 
 const app = express();
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
 app.use('/api', apiRouter);

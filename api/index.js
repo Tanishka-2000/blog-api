@@ -14,6 +14,8 @@ router.get('/posts/:postId/comments', user.getComments);
 router.post('/posts/:postId/comments', user.createNewComment);
 
 // for admin
+router.post('/admin/login', admin.logUser);
+
 router.get('/admin/posts', admin.getAllPosts);
 
 router.get('/admin/posts/:postId', admin.getSpecifiedPost);

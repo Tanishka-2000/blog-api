@@ -1,6 +1,10 @@
 const Posts = require('../models/posts.js');
 const Comments = require('../models/comments.js');
 
+exports.logUser = (req, res) => {
+  res.json({"token": "4567bnvmnfg8989"});
+};
+
 exports.getAllPosts = (req, res) => {
   res.json({posts: [
     {id: 1, published: "true", title: "Aliens built pyramid", content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."},

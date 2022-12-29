@@ -1,16 +1,14 @@
-const Posts = require('../models/posts.js');
-const Comments = require('../models/comments.js');
+const Post = require('../models/posts.js');
+const Comment = require('../models/comments.js');
 
 exports.getAllPosts = (req, res) => {
-  // Posts.find({}, (err, posts) => {
-  //   if(err) return res.status(502).json({error: err});
-  //   if(!posts) return res.json({posts: null});
-  //   res.josn({posts});
-  // });
-  res.json({posts: [
-    {id: 1, title: "Aliens built pyramid", content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."},
-    {id: 2, title: "Cats should overthrow government", content:"Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."}
-  ]});
+  Post.find({}, 'title content img', (err, posts) => {
+    res.json({posts})
+  });
+  // res.json({posts: [
+  //   {id: 1, title: "Aliens built pyramid", content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."},
+  //   {id: 2, title: "Cats should overthrow government", content:"Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."}
+  // ]});
 };
 
 exports.getSpecifiedPost = (req, res) => {
@@ -32,3 +30,8 @@ exports.createNewComment = (req, res) => {
     res.json({message:'New comment created!',
   comment});
 };
+// Posts.find({}, (err, posts) => {
+  //   if(err) return res.status(502).json({error: err});
+  //   if(!posts) return res.json({posts: null});
+  //   res.josn({posts});
+  // });

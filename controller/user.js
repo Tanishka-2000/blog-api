@@ -3,7 +3,7 @@ const Comment = require('../models/comments.js');
 
 exports.getAllPosts = (req, res) => {
   Post.find({published: true}, 'title content img', (error, posts) => {
-    if(error) return res.json({message: 'Cannot fetch data from database', error});
+    if(error) return res.status(502).json({error});
     res.json({posts});
   });
   // res.json({posts: [
@@ -14,7 +14,7 @@ exports.getAllPosts = (req, res) => {
 
 exports.getSpecifiedPost = (req, res) => {
   Post.findById(req.params.postId, 'title content img', (error, post) => {
-    if(error) return res.status(502).json({message: 'Cannot fetch data from database', error});
+    if(error) return res.status(502).json({error});
     if(!post) return res.status(400).json({message: `No post exists with id ${req.params.postId}`});
     res.json({post});
   })
@@ -23,21 +23,27 @@ exports.getSpecifiedPost = (req, res) => {
 
 exports.getComments = (req, res) => {
   Comment.find({postId: req.params.postId}, (error, comments) => {
-    if(error) return res.status(502).json({message: 'Cannot fetch data from database', error});
+    if(error) return res.status(502).json({error});
     res.json({comments});
   })
   // res.json({post_id: req.params.postId, comments: [{ id: 1, content: 'comment1', username: "fluffykit"}, { id: 2, content: 'comment2', username:"fuzzball"}]});
 };
 
 exports.createNewComment = (req, res) => {
-    const comment = {
-      id: 234,
-      postId: req.params.postid,
+ 
+    const comment = new Comment({
+      postId: req.params.postId,
       username: req.body.username,
-      comment: req.body.comment
-    }
-    res.json({message:'New comment created!',
-  comment});
+      comment: req.body.comment,
+      timeStamp: new Date()
+    });
+ 
+    comment.save(error => {
+      if(error) return res.status(502).json({error});
+      res.json({message:'comment posted'});
+    })
+  //   res.json({message:'New comment created!',
+  // comment});
 };
 // Posts.find({}, (err, posts) => {
   //   if(err) return res.status(502).json({error: err});

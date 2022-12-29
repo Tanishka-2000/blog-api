@@ -2,9 +2,9 @@ const Post = require('../models/posts.js');
 const Comment = require('../models/comments.js');
 
 exports.getAllPosts = (req, res) => {
-  Post.find({}, 'title content img', (error, posts) => {
+  Post.find({published: true}, 'title content img', (error, posts) => {
     if(error) return res.json({message: 'Cannot fetch data from database', error});
-    res.json({posts})
+    res.json({posts});
   });
   // res.json({posts: [
   //   {id: 1, title: "Aliens built pyramid", content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."},
@@ -14,16 +14,19 @@ exports.getAllPosts = (req, res) => {
 
 exports.getSpecifiedPost = (req, res) => {
   Post.findById(req.params.postId, 'title content img', (error, post) => {
-    if(error) return res.json({message: 'Cannot fetch data from database', error});
-    if(!post) return res.status(404).json({message: `No post exists with id ${req.params.postId}`});
+    if(error) return res.status(502).json({message: 'Cannot fetch data from database', error});
+    if(!post) return res.status(400).json({message: `No post exists with id ${req.params.postId}`});
     res.json({post});
   })
   // res.json({id: req.params.postId, title: "Is your cat plotting to kill you", content:"Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."})
 };
 
 exports.getComments = (req, res) => {
-  res.json({post_id: req.params.postId, comments: [{ id: 1, content: 'comment1', username: "fluffykit"}, { id: 2, content: 'comment2', username:"fuzzball"}]});
-
+  Comment.find({postId: req.params.postId}, (error, comments) => {
+    if(error) return res.status(502).json({message: 'Cannot fetch data from database', error});
+    res.json({comments});
+  })
+  // res.json({post_id: req.params.postId, comments: [{ id: 1, content: 'comment1', username: "fluffykit"}, { id: 2, content: 'comment2', username:"fuzzball"}]});
 };
 
 exports.createNewComment = (req, res) => {

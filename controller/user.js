@@ -2,7 +2,8 @@ const Post = require('../models/posts.js');
 const Comment = require('../models/comments.js');
 
 exports.getAllPosts = (req, res) => {
-  Post.find({}, 'title content img', (err, posts) => {
+  Post.find({}, 'title content img', (error, posts) => {
+    if(error) return res.json({message: 'Cannot fetch data from database', error});
     res.json({posts})
   });
   // res.json({posts: [
@@ -12,7 +13,12 @@ exports.getAllPosts = (req, res) => {
 };
 
 exports.getSpecifiedPost = (req, res) => {
-  res.json({id: req.params.postId, title: "Is your cat plotting to kill you", content:"Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."})
+  Post.findById(req.params.postId, 'title content img', (error, post) => {
+    if(error) return res.json({message: 'Cannot fetch data from database', error});
+    if(!post) return res.status(404).json({message: `No post exists with id ${req.params.postId}`});
+    res.json({post});
+  })
+  // res.json({id: req.params.postId, title: "Is your cat plotting to kill you", content:"Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."})
 };
 
 exports.getComments = (req, res) => {

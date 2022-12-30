@@ -69,10 +69,8 @@ exports.logIn = (req, res) => {
       if(err) return res.json(err);
       if(!result) return res.json({message:'incorrect password'});
       // res.json({message: 'login successfull', user})
-      let token = jwt.sign(user.id, process.env.SECRETKEY ,(err, token) => {
-        if(err) return res.json(err);
+      let token = jwt.sign({ id: user.id}, process.env.SECRETKEY, {expiresIn: '1d'});
         res.json({token});
-      });
     });
   });
 

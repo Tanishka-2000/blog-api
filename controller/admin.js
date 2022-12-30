@@ -1,9 +1,8 @@
 const Posts = require('../models/posts.js');
 const Comments = require('../models/comments.js');
 
-exports.logUser = (req, res) => {
-  res.json({"token": "4567bnvmnfg8989"});
-};
+
+
 
 exports.getAllPosts = (req, res) => {
   res.json({posts: [
@@ -35,8 +34,3 @@ exports.updatePost = (req, res) => {
 exports.deleteComment = (req, res) => {
   res.json({message: `Comment with id ${req.params.commentId} deleted!`})
 };
-  // Posts.find({}, (err, posts) => {
-  //   if(err) return res.status(502).json({error: err});
-  //   if(!posts) return res.json({posts: null});
-  //   res.josn({posts});
-  // });

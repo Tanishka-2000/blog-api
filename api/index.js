@@ -13,8 +13,11 @@ router.get('/posts/:postId/comments', user.getComments);
 
 router.post('/posts/:postId/comments', user.createNewComment);
 
+router.post('/login', user.logIn);
+
+// router.post('/signin', user.signIn);
+
 // for admin
-router.post('/admin/login', admin.logUser);
 
 router.get('/admin/posts', admin.getAllPosts);
 

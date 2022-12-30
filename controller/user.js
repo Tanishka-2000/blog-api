@@ -3,6 +3,7 @@ const Comment = require('../models/comments.js');
 
 const bcryptjs = require('bcryptjs');
 const User = require('../models/user.js');
+const jwt = require('jsonwebtoken');
 
 exports.getAllPosts = (req, res) => {
   Post.find({published: true}, 'title content img', (error, posts) => {
@@ -67,7 +68,11 @@ exports.logIn = (req, res) => {
     bcryptjs.compare(req.body.password, user.password, function(err, result) {
       if(err) return res.json(err);
       if(!result) return res.json({message:'incorrect password'});
-      res.json({message: 'login successfull', user})
+      // res.json({message: 'login successfull', user})
+      let token = jwt.sign(user.id, process.env.SECRETKEY ,(err, token) => {
+        if(err) return res.json(err);
+        res.json({token});
+      });
     });
   });
 

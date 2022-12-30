@@ -6,6 +6,8 @@ const admin = require('../controller/admin.js');
 
 router.get('/posts', admin.getAllPosts);
 
+router.post('/posts', admin.createPost);
+
 router.get('/posts/:postId', admin.getSpecifiedPost);
 
 router.put('/posts/:postId', admin.updatePost);

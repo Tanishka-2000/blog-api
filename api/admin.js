@@ -14,6 +14,6 @@ router.put('/posts/:postId', admin.updatePost);
 
 router.get('/posts/:postId/comments', admin.getComments);
 
-router.delete('/posts/:postId/comments/:commentId', admin.deleteComment);
+router.delete('/comments/:commentId', admin.deleteComment);
 
 module.exports = router;
